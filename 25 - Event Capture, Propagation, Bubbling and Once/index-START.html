@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Understanding JavaScript's Capture</title>
+  </head>
+  <body class="bod">
+    <div class="one">
+      <div class="two">
+        <div class="three"></div>
+      </div>
+    </div>
+
+    <style>
+      html {
+        box-sizing: border-box;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      div {
+        width: 100%;
+        padding: 100px;
+      }
+
+      .one {
+        background: thistle;
+      }
+
+      .two {
+        background: mistyrose;
+      }
+
+      .three {
+        background: coral;
+      }
+    </style>
+
+    <button></button>
+    <script>
+      const divs = document.querySelectorAll("div");
+
+      function logText(e) {
+        console.log(this.classList.value);
+        // e.stopPropagation();// přestaň dělat bubbling a ukaž jen element na který klikám
+      }
+
+      // divs.forEach((div) => div.addEventListener("click", logText));
+      divs.forEach((div) =>
+        div.addEventListener("click", logText, {
+          capture: false, //normálně je to false = a to je důvod proč se zobratuje 3 2 1 , s true se zobrazí 1,2 3 ze zhoda dolu
+          once: true, //listen for a click once and unbubble it self... jde to jen jednou
+        })
+      );
+    </script>
+  </body>
+</html>
